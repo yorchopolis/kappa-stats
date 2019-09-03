@@ -14,6 +14,8 @@ http://en.wikipedia.org/wiki/Cohen%27s_kappa
 
 ## Usage
 
+Run kappa.py from the command line.
+
 ### Example
 For a quick example you can run kappa.py with one of the fixture files, e.g.
 
@@ -36,3 +38,49 @@ For a quick example you can run kappa.py with one of the fixture files, e.g.
 From the command line, use the following command to run the test cases
     
     python -m pytest 
+
+## Math
+**Samples** are called **subjects** in the code.
+
+### Matrices and Lists
+What do the different lists, arrays and matrices in the code contain? Find answeres below
+
+#### Ratings
+Contains the numbers of the input file as an ndarray. For example, the missing_data.txt would produce an ndarray starting with
+
+              [[ 1.,  0.],
+               [ 2.,  1.],
+               [ 2.,  3.]]
+Dimensions: samples x raters = samples x 2 (= 3 x 2)
+Values: ratings of type category (here, one of `{0, 1, 2, 3}`)
+
+#### Distributions
+Converts the ratings into containers of categories.
+For the example above (with possible ratings out of `{0, 1, 2, 3}`) that would be
+ 
+               [[0, 1],
+                [1, 1],
+                [2, 0],
+                [0, 1]]
+Dimensions: categories x raters = categories x 2 (= 4 x 2)
+Values: counts
+Characteristics: sum of all values = rater x samples = 2 x samples (= 2 x 3 = 6), because every rater rated each sample once
+
+#### Weight
+Contains weights for the differences of different categories. Also an ndarray. Non-weighted with 4 categories looks like below. Find 3 x3 examples as comments in the code of `build_weight_matrix()`:
+
+    [[0, 1, 1, 1],
+      [1, 0, 1, 1],
+      [1, 1, 0, 1],
+      [1, 1, 1, 0]]
+      
+Dimensions: categories x categories
+Characteristics: symmetric matrix, i.e. `weight_matrix[2][5] = weight_matrix[5][2]`
+
+#### Expected
+Contains a matrix obtained from the distributions matrix. For the example in this section it is:
+
+    [[0, 0, 0, 0],
+      [1, 1, 0, 1],
+      [2, 2, 0, 2],
+      [0, 0, 0, 0]]
