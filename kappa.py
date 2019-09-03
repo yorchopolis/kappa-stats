@@ -4,13 +4,17 @@ from docopt import docopt
 import numpy as np
 import sys
 
+# todo: deal with number of categories... as argument? comment on fleiss gist "Another trivial comment: I would suggest using "k" as a parameter and let the user decide how many categories there are. Just because nobody voted for a category doesn't mean it wasn't available."
+
+#TODO insert check, if weights matrix is k x k (number of categories)
+
 usage = """Usage: kappa.py [--help] [--linear|--unweighted|--squared|--weighted <filename>] [--verbose] [--csv] --filename <filename>
 
 -h, --help                            Show this
 -l, --linear                          Linear weights for disagreements (default)
 -u, --unweighted                      Cohen's Kappa (unweighted agreement/disagreement)
 -s, --squared                         Squared weights for disagreements
--w <filename>, --weighted <filename>  Custom weights
+-w <filename>, --weighted <filename>  The filename to get the Custom weights matrix from. If there are k categories, the file should contain k lines with k values in each line, whitespace-separated.
 -v, --verbose                         Include number of categories and subjects in the output
 -c, --csv                             For text files with comma-separated values
 -f <filename>, --filename <filename>  The filename to process, with pairs of integers on each line. The values in each pair correspond to the rating that each of the two reviewers gave to a particular subject. The pairs must be whitespaced-separated (or comma-separated, with the -c flag).
@@ -129,12 +133,14 @@ def main(args):
         print('Subjects: ' + str(subjects))
         print('Weighted Matrix:')
         print(weighted)
+        print('Ratings:')
+        print(ratings)
         print('Observed Matrix:')
-        print(observed * subjects)
+        print(observed)
         print('Expected Matrix:')
-        print(expected * subjects)
+        print(expected)
         print('Distributions Matrix:')
-        print(distributions * subjects)
+        print(distributions)
     else:
         print(kappa)
 
