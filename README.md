@@ -8,9 +8,15 @@ A good source to understand these measures:
 http://en.wikipedia.org/wiki/Cohen%27s_kappa
 
 ## Requirements
-* Python 3.x
+
+* Python (tested on both 2.7 and 3.7)
 * NumPy
 * docopt
+* pytest (to run the tests)
+
+You can install the dependencies with:
+
+    pip install -r requirements.txt
 
 ## Usage
 
@@ -36,8 +42,8 @@ For a quick example you can run kappa.py with one of the fixture files, e.g.
 ## Running the Tests
 
 From the command line, use the following command to run the test cases
-    
-    python -m pytest 
+
+    python -m pytest
 
 ## Math
 **Samples** are called **subjects** in the code.
