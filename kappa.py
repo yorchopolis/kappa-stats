@@ -56,22 +56,22 @@ def read_or_build_weighted_matrix(ratings, mode):
             print('Invalid input (integers required)')
             sys.exit(1)
 
+
 def read_weight_matrix(mode):
+    weights_file = mode.get('weighted')
     try:
-        weights_file = mode.get('weighted')
         weights = np.genfromtxt(weights_file)
-        int(np.amax(weights)) # to check if all are numbers!?
-        symmetric = (weights.shape[0] == weights.shape[1] and np.allclose(weights, weights.T))
-        if symmetric:
-            return np.genfromtxt(weights_file)
-        else:
-            raise RuntimeError("Weights matrix has to be symmetric")
-    #todo: did not help... remove? do not care???
-    except(IOError):
-        print('Bad filename: ' + weights_file)
-        sys.exit(1)
     except(ValueError):
-        raise ValueError("Invalid input from weights (integers required. The same number of integers required in each row)")
+        raise ValueError("Invalid input from weights (same number of elements required in each row)")
+
+    contains_nan = np.isnan(np.sum(weights))
+    if contains_nan or weights.size == 0:
+        raise ValueError("Invalid input from weights (numbers required)")
+    symmetric = (weights.shape[0] == weights.shape[1] and np.allclose(weights, weights.T))
+    if symmetric:
+        return np.genfromtxt(weights_file)
+    else:
+        raise RuntimeError("Weights matrix has to be symmetric")
 
 
 def build_weight_matrix(categories, mode):

@@ -13,19 +13,19 @@ def test_assymmetric_weights():
 
 
 def test_invalid_weights():
-    with pytest.raises(ValueError, match="integers required"):
+    with pytest.raises(ValueError, match="numbers required"):
         kappa.main({'--filename': 'test/fixtures/minimal_example.txt', '--weighted': 'test/fixtures/customweights/invalid_weights.txt'})
 
 
 def test_missing_weights_value():
-    with pytest.raises(ValueError, match="same number of integers required in each row"):
+    with pytest.raises(ValueError, match="same number of elements required in each row"):
         kappa.main({'--filename': 'test/fixtures/minimal_example.txt', '--weighted': 'test/fixtures/customweights/missing_weights.txt'})
 
     with pytest.warns(UserWarning, match="Empty input file"):
-        with pytest.raises(ValueError, match="same number of integers required in each row"):
+        with pytest.raises(ValueError, match="numbers required"):
             kappa.main({'--filename': 'test/fixtures/minimal_example.txt', '--weighted': 'test/fixtures/customweights/empty.txt'})
 
 
 def test_bad_filename_for_weights_exit():
-    with pytest.raises(SystemExit):
+    with pytest.raises(OSError, match="not found"):
         kappa.main({'--filename': 'test/fixtures/minimal_example.txt', '--weighted': 'test/fixtures/customweights/does_not_exist.txt'})
