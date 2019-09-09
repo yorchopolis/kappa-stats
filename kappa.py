@@ -4,10 +4,6 @@ from docopt import docopt
 import numpy as np
 import sys
 
-# todo: deal with number of categories... as argument? comment on fleiss gist "Another trivial comment: I would suggest using "k" as a parameter and let the user decide how many categories there are. Just because nobody voted for a category doesn't mean it wasn't available."
-
-#TODO insert check, if weights matrix is k x k (number of categories)
-
 usage = """Usage: kappa.py [--help] [--linear|--unweighted|--squared|--weighted <filename>] [--verbose] [--csv] --filename <filename>
 
 -h, --help                            Show this
@@ -56,9 +52,17 @@ def read_or_build_weighted_matrix(ratings, mode):
             print('Invalid input (integers required)')
             sys.exit(1)
 
+
 def read_weight_matrix(mode):
     weights_file = mode.get('weighted')
-    weights = np.genfromtxt(weights_file)
+    try:
+        weights = np.genfromtxt(weights_file)
+    except(ValueError):
+        raise ValueError("Invalid input from weights (same number of elements required in each row)")
+
+    contains_nan = np.isnan(np.sum(weights))
+    if contains_nan or weights.size == 0:
+        raise ValueError("Invalid input from weights (numbers required)")
     symmetric = (weights.shape[0] == weights.shape[1] and np.allclose(weights, weights.T))
     if symmetric:
         return np.genfromtxt(weights_file)
@@ -131,16 +135,6 @@ def main(args):
         print(kappa)
         print('Categories: ' + str(categories))
         print('Subjects: ' + str(subjects))
-        print('Weighted Matrix:')
-        print(weighted)
-        print('Ratings:')
-        print(ratings)
-        print('Observed Matrix:')
-        print(observed)
-        print('Expected Matrix:')
-        print(expected)
-        print('Distributions Matrix:')
-        print(distributions)
     else:
         print(kappa)
 

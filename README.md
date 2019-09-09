@@ -22,10 +22,14 @@ You can install the dependencies with:
 
 Run kappa.py from the command line.
 
-### Example
+### Examples
 For a quick example you can run kappa.py with one of the fixture files, e.g.
 
     python kappa.py -cv -f test/fixtures/comma_separated.txt -u
+
+To run with a custom weights matrix try this example:
+
+    python kappa.py -v -f test/fixtures/perfect_agreement.txt -w test/fixtures/customweights/weights_matrix.txt
 
 ### Command line Options
 
@@ -68,9 +72,9 @@ For the example above (with possible ratings out of `{0, 1, 2, 3}`) that would b
                 [1, 1],
                 [2, 0],
                 [0, 1]]
-Dimensions: categories x raters = categories x 2 (= 4 x 2)
-Values: counts
-Characteristics: sum of all values = rater x samples = 2 x samples (= 2 x 3 = 6), because every rater rated each sample once
+* Dimensions: categories x raters = categories x 2 (= 4 x 2)
+* Values: counts
+* Characteristics: sum of all values = rater x samples = 2 x samples (= 2 x 3 = 6), because every rater rated each sample once
 
 #### Weight
 Contains weights for the differences of different categories. Also an ndarray. Non-weighted with 4 categories looks like below. Find 3 x3 examples as comments in the code of `build_weight_matrix()`:
@@ -80,8 +84,8 @@ Contains weights for the differences of different categories. Also an ndarray. N
       [1, 1, 0, 1],
       [1, 1, 1, 0]]
       
-Dimensions: categories x categories
-Characteristics: symmetric matrix, i.e. `weight_matrix[2][5] = weight_matrix[5][2]`
+* Dimensions: categories x categories
+* Characteristics: symmetric matrix, i.e. `weight_matrix[2][5] = weight_matrix[5][2]`
 
 #### Expected
 Contains a matrix obtained from the distributions matrix. For the example in this section it is:
