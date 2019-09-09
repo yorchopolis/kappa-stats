@@ -22,10 +22,14 @@ You can install the dependencies with:
 
 Run kappa.py from the command line.
 
-### Example
+### Examples
 For a quick example you can run kappa.py with one of the fixture files, e.g.
 
     python kappa.py -cv -f test/fixtures/comma_separated.txt -u
+
+To run with a custom weights matrix try this example:
+
+    python kappa.py -v -f test/fixtures/perfect_agreement.txt -w test/fixtures/customweights/weights_matrix.txt
 
 ### Command line Options
 
