@@ -15,7 +15,6 @@ def test_get_mode():
 
 def test_build_weight_matrix_unweighted():
     weighted = kappa.build_weight_matrix(3, 'unweighted')
-    print(weighted)
     assert weighted.size == 9
     assert weighted[0][0] == 0
     assert weighted[0][1] == 1
